@@ -42,6 +42,21 @@ class Eleve(models.Model):
     def __str__(self):
         return self.nom_eleve
 
+class Responsable_Eleve(models.Model):
+    login_res = models.CharField(max_length=40)
+    nom_res=models.CharField(max_length=50)
+    prenom_res=models.CharField(max_length=50)
+    pasword_res = models.CharField(max_length=40)
+    nom_classe=models.ForeignKey('Classe', on_delete=models.CASCADE)
+
+
+    class Meta:
+        verbose_name = "Responsable de classe"
+        ordering = ['login_res']
+
+    def __str__(self):
+        return self.nom_res
+
 class CahierTexte(models.Model):
     heure_cours=models.CharField(max_length=50)
     date=models.DateTimeField()
@@ -101,3 +116,21 @@ class PresAbs(models.Model):
 
     def __str__(self):
         return self.id_eleve
+
+class Planning(models.Model):
+    heure = models.CharField(max_length=7, null=True)
+    moduleLundi = models.CharField(max_length=30, blank=True)
+    moduleMardi = models.CharField(max_length=30, blank=True)
+    moduleMercredi = models.CharField(max_length=30, blank=True)
+    moduleJeudi = models.CharField(max_length=30, blank=True)
+    moduleVendredi = models.CharField(max_length=30, blank=True)
+    moduleSamedi = models.CharField(max_length=30, blank=True)
+    id_prof=models.ForeignKey('Prof', on_delete=models.CASCADE)
+    id_classe = models.ForeignKey('Classe', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Planning"
+
+
+    def __str__(self):
+        return self.heure
