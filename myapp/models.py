@@ -16,7 +16,7 @@ class Secretaire(models.Model):
 
 
 class Classe(models.Model):
-    nom_classe=models.CharField(max_length=50, primary_key=True)
+    nom_classe=models.CharField(max_length=50)
     password_classe=models.CharField(max_length=50)
     login_classe = models.CharField(max_length=50)
 
@@ -32,7 +32,7 @@ class Eleve(models.Model):
     nom_eleve=models.CharField(max_length=50)
     prenom_eleve=models.CharField(max_length=50)
     grade_eleve=models.CharField(max_length=40)
-    nom_classe=models.ForeignKey('Classe', on_delete=models.CASCADE)
+    id_classe=models.ForeignKey('Classe', on_delete=models.CASCADE)
 
 
     class Meta:
@@ -60,7 +60,7 @@ class Prof(models.Model):
     nom_prof=models.CharField(max_length=50)
     prenom_prof=models.CharField(max_length=50)
     mail_prof=models.CharField(max_length=50)
-    login_prof=models.CharField(max_length=50, primary_key=True)
+    login_prof=models.CharField(max_length=50)
     password_prof=models.CharField(max_length=50)
     grade_prof=models.CharField(max_length=30)
 
@@ -69,11 +69,11 @@ class Prof(models.Model):
 
 
 class Cours(models.Model):
-    nom_cours=models.CharField(max_length=50, primary_key=True)
+    nom_cours=models.CharField(max_length=50)
     duree=models.CharField(max_length=50)
     date=models.DateField()
-    login_prof=models.ForeignKey('Prof', on_delete=models.CASCADE)
-    nom_classe = models.ForeignKey('Classe', on_delete=models.CASCADE)
+    id_prof=models.ForeignKey('Prof', on_delete=models.CASCADE)
+    id_classe = models.ForeignKey('Classe', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nom_cours
@@ -81,24 +81,23 @@ class Cours(models.Model):
 class Notification(models.Model):
     date=models.DateTimeField()
     contenu=models.TextField()
-    login_prof=models.ForeignKey('Prof', on_delete=models.CASCADE)
+    id_prof=models.ForeignKey('Prof', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.contenu
 
 class Enseigner(models.Model):
-    nom_classe=models.ForeignKey('Classe', on_delete=models.CASCADE)
-    login_prof=models.ForeignKey('Prof', on_delete=models.CASCADE)
+    id_classe=models.ForeignKey('Classe', on_delete=models.CASCADE)
+    id_prof=models.ForeignKey('Prof', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.nom_classe
+        return self.id_classe
 
 
 class PresAbs(models.Model):
     id_eleve=models.ForeignKey('Eleve', on_delete=models.CASCADE)
-    nom_cours=models.ForeignKey('Cours', on_delete=models.CASCADE)
+    id_cours=models.ForeignKey('Cours', on_delete=models.CASCADE)
+    date = models.DateTimeField()
 
     def __str__(self):
         return self.id_eleve
-
-
