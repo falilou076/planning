@@ -31,7 +31,6 @@ class Classe(models.Model):
 class Eleve(models.Model):
     nom_eleve=models.CharField(max_length=50)
     prenom_eleve=models.CharField(max_length=50)
-    grade_eleve=models.CharField(max_length=40)
     id_classe=models.ForeignKey('Classe', on_delete=models.CASCADE)
 
 
@@ -42,12 +41,9 @@ class Eleve(models.Model):
     def __str__(self):
         return self.nom_eleve
 
-class Responsable_Eleve(models.Model):
+class Responsable_Eleve(Eleve):
     login_res = models.CharField(max_length=40)
-    nom_res=models.CharField(max_length=50)
-    prenom_res=models.CharField(max_length=50)
     pasword_res = models.CharField(max_length=40)
-    nom_classe=models.ForeignKey('Classe', on_delete=models.CASCADE)
 
 
     class Meta:
@@ -55,7 +51,7 @@ class Responsable_Eleve(models.Model):
         ordering = ['login_res']
 
     def __str__(self):
-        return self.nom_res
+        return self.nom_eleve
 
 class CahierTexte(models.Model):
     heure_cours=models.CharField(max_length=50)
@@ -77,7 +73,13 @@ class Prof(models.Model):
     mail_prof=models.CharField(max_length=50)
     login_prof=models.CharField(max_length=50)
     password_prof=models.CharField(max_length=50)
-    grade_prof=models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.prenom_prof
+
+
+class Responsable_Prof(Prof):
+    id_classe = models.ForeignKey('Classe', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.prenom_prof

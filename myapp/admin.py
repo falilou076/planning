@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Secretaire,Classe,Eleve,CahierTexte,Prof,Cours,Notification,Enseigner,PresAbs
+from .models import *
 
 # Register your models here.
 admin.site.register(Secretaire)
@@ -11,3 +11,6 @@ admin.site.register(Cours)
 admin.site.register(Notification)
 admin.site.register(Enseigner)
 admin.site.register(PresAbs)
+admin.site.register(Planning)
+admin.site.register(Responsable_Eleve)
+admin.site.register(Responsable_Prof)
