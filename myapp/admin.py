@@ -14,3 +14,6 @@ admin.site.register(PresAbs)
 admin.site.register(Planning)
 admin.site.register(Responsable_Eleve)
 admin.site.register(Responsable_Prof)
+
+class EleveAdmin(admin.ModelAdmin):
+    change_list_template ='admin/change.html'
