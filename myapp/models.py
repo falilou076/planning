@@ -42,7 +42,7 @@ class Eleve(models.Model):
 
 
     def __str__(self):
-        return self.nom_eleve
+        return self.prenom_eleve
 
 class Responsable_Eleve(Eleve):
     login_res = models.CharField(max_length=40)
@@ -61,6 +61,8 @@ class CahierTexte(models.Model):
     date=models.DateField()
     contenu=models.TextField()
     id_eleve=models.ForeignKey('Eleve', on_delete=models.CASCADE)
+    id_cours=models.ForeignKey('Cours', on_delete=models.CASCADE)
+
 
     class Meta:
         verbose_name_plural = "Cahier de texte"
@@ -137,7 +139,7 @@ class PresAbs(models.Model):
     class Meta :
         verbose_name_plural = "Absences"
     def __str__(self):
-        return self.id_eleve
+        return self.heure
 
 class Planning(models.Model):
     heure = models.CharField(max_length=7, null=True)

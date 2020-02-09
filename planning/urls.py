@@ -28,7 +28,11 @@ urlpatterns = [
     path('del/<int:id>/', views.delPlanning, name='del'),
     path('edit/<int:id>/', views.editPlanning, name='edit'),
     path('presabs/', views.presence_absence, name='presabs'),
-    path('cahierTexe/', views.cahier_texte, name='cahierTexte'),
+    path('cahierTexte/', views.cahier_texte, name='cahierTexte'),
+    path('presabs/', views.presence_absence, name='presabs'),
     path('notification/', views.notifications, name='notification'),
 
 ]
+admin.site.site_header = " Administrateur"
+admin.site.site_title = "Planning"
+admin.site.index_title = "Welcome to Planning Project Admin"
