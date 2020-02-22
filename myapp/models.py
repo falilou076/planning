@@ -1,34 +1,33 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import  User
 # Create your models here.
 
 class Secretaire(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE) # Liaison 0netoOne vers le model User
     nom=models.CharField(max_length=50)
     prenom=models.CharField(max_length=50)
     mail=models.CharField(max_length=100)
     telephone=models.CharField(max_length=20)
-    login=models.CharField(max_length=50)
-    password=models.CharField(max_length=50)
 
     class Meta :
         verbose_name_plural = "Secretaire"
 
 
     def __str__(self):
-        return self.nom
+        return "Informations de {0}".format(self.user.username)
 
 
 class Classe(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # Liaison 0netoOne vers le model User
     nom_classe=models.CharField(max_length=50)
-    password_classe=models.CharField(max_length=50)
-    login_classe = models.CharField(max_length=50)
 
     class Meta:
         verbose_name_plural = "Classe"
         ordering = ['nom_classe']
 
     def __str__(self):
-        return self.nom_classe
+        return "Informations de {0}".format(self.user.username)
 
 
 class Eleve(models.Model):
@@ -45,22 +44,20 @@ class Eleve(models.Model):
         return self.prenom_eleve
 
 class Responsable_Eleve(Eleve):
-    login_res = models.CharField(max_length=40)
-    pasword_res = models.CharField(max_length=40)
-
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # Liaison 0netoOne vers le model User
 
     class Meta:
         verbose_name_plural = "Responsable de classe"
-        ordering = ['login_res']
+        ordering = ['prenom_eleve']
 
     def __str__(self):
-        return self.nom_eleve
+        return "Informations de {0}".format(self.user.username)
 
 class CahierTexte(models.Model):
     heure_cours=models.CharField(max_length=50)
     date=models.DateField()
     contenu=models.TextField()
-    id_eleve=models.ForeignKey('Eleve', on_delete=models.CASCADE)
+    id_eleve=models.ForeignKey('Responsable_Eleve', on_delete=models.CASCADE)
     id_cours=models.ForeignKey('Cours', on_delete=models.CASCADE)
 
 
@@ -73,18 +70,16 @@ class CahierTexte(models.Model):
 
 
 class Prof(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # Liaison 0netoOne vers le model User
     nom_prof=models.CharField(max_length=50)
     prenom_prof=models.CharField(max_length=50)
     mail_prof=models.CharField(max_length=50)
-    login_prof=models.CharField(max_length=50)
-    password_prof=models.CharField(max_length=50)
 
     class Meta :
         verbose_name_plural = "Professeur"
 
     def __str__(self):
-        return self.prenom_prof
-
+        return "Informations de {0}".format(self.user.username)
 
 class Responsable_Prof(Prof):
     id_classe = models.ForeignKey('Classe', on_delete=models.CASCADE)
@@ -126,20 +121,20 @@ class Enseigner(models.Model):
 
     class Meta :
         verbose_name_plural = "Enseigner"
-    def __str__(self):
-        return self.id_classe
+
 
 
 class PresAbs(models.Model):
-    id_eleve=models.ForeignKey('Eleve', on_delete=models.CASCADE)
+    nom_eleve=models.CharField(max_length=400)
     id_cours=models.ForeignKey('Cours', on_delete=models.CASCADE)
     date = models.DateField()
     heure = models.CharField(max_length=10)
 
     class Meta :
         verbose_name_plural = "Absences"
+        ordering = ['date']
     def __str__(self):
-        return self.heure
+        return self.nom_eleve
 
 class Planning(models.Model):
     heure = models.CharField(max_length=7, null=True)
@@ -158,3 +153,99 @@ class Planning(models.Model):
 
     def __str__(self):
         return self.heure
+
+
+class Plaquette(models.Model):
+    ue = models.CharField(max_length=40, blank=True)
+    ec = models.CharField(max_length=30)
+    cm = models.CharField(max_length=3)
+    tpd = models.CharField(max_length=3)
+    ttal = models.CharField(max_length=3)
+    tpe = models.CharField(max_length=3)
+    ects = models.CharField(max_length=3)
+    total_Ects = models.CharField(max_length=3, blank=True)
+    coefs = models.CharField( max_length=2, blank=True)
+    coefs_details = models.IntegerField()
+
+
+    class Meta:
+        verbose_name = "Plaquette"
+
+    def __str__(self):
+        return self.ec
+
+class Plaquette1(models.Model):
+    ue = models.CharField(max_length=40, blank=True)
+    ec = models.CharField(max_length=30)
+    cm = models.CharField(max_length=3)
+    tpd = models.CharField(max_length=3)
+    ttal = models.CharField(max_length=3)
+    tpe = models.CharField(max_length=3)
+    ects = models.CharField(max_length=3)
+    total_Ects = models.CharField(max_length=3, blank=True)
+    coefs = models.CharField( max_length=2, blank=True)
+    coefs_details = models.IntegerField()
+
+
+    class Meta:
+        verbose_name = "Plaquette1"
+
+    def __str__(self):
+        return self.ec
+
+class Plaquette2(models.Model):
+    ue = models.CharField(max_length=40, blank=True)
+    ec = models.CharField(max_length=30)
+    cm = models.IntegerField()
+    tpd = models.IntegerField()
+    ttal = models.IntegerField()
+    tpe = models.IntegerField()
+    ects = models.IntegerField()
+    total_Ects = models.CharField(max_length=3, blank=True)
+    coefs = models.CharField( max_length=2, blank=True)
+    coefs_details = models.IntegerField()
+
+
+    class Meta:
+        verbose_name = "Plaquette2"
+
+    def __str__(self):
+        return self.ec
+
+class Plaquette3(models.Model):
+    ue = models.CharField(max_length=40, blank=True)
+    ec = models.CharField(max_length=30)
+    cm = models.IntegerField()
+    tpd = models.IntegerField()
+    ttal = models.IntegerField()
+    tpe = models.IntegerField()
+    ects = models.IntegerField()
+    total_Ects = models.CharField(max_length=3, blank=True)
+    coefs = models.CharField( max_length=2, blank=True)
+    coefs_details = models.IntegerField()
+
+
+    class Meta:
+        verbose_name = "Plaquette3"
+
+    def __str__(self):
+        return self.ec
+
+class Plaquette4(models.Model):
+    ue = models.CharField(max_length=40, blank=True)
+    ec = models.CharField(max_length=30)
+    cm = models.IntegerField()
+    tpd = models.IntegerField()
+    ttal = models.IntegerField()
+    tpe = models.IntegerField()
+    ects = models.IntegerField()
+    total_Ects = models.CharField(max_length=3, blank=True)
+    coefs = models.CharField( max_length=2, blank=True)
+    coefs_details = models.IntegerField()
+
+
+    class Meta:
+        verbose_name = "Plaquette4"
+
+    def __str__(self):
+        return self.ec

@@ -23,6 +23,35 @@ class CahierTexteForm(forms.ModelForm):
         fields = '__all__'
 
 class PresAbsenceForm(forms.ModelForm):
+    nom_eleve = forms.CharField(
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+    )
     class Meta:
         model = PresAbs
+        fields = '__all__'
+
+class PlaquetteForm(forms.ModelForm):
+    class Meta:
+        model = Plaquette
+        fields = '__all__'
+
+class Plaquette1Form(forms.ModelForm):
+    class Meta:
+        model = Plaquette1
+        fields = '__all__'
+
+class Plaquette2Form(forms.ModelForm):
+    class Meta:
+        model = Plaquette2
+        fields = '__all__'
+
+class Plaquette3Form(forms.ModelForm):
+    class Meta:
+        model = Plaquette3
+        fields = '__all__'
+
+class Plaquette4Form(forms.ModelForm):
+    class Meta:
+        model = Plaquette4
         fields = '__all__'
