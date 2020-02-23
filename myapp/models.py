@@ -15,7 +15,7 @@ class Secretaire(models.Model):
 
 
     def __str__(self):
-        return "Informations de {0}".format(self.user.username)
+        return " {0}".format(self.user.username)
 
 
 class Classe(models.Model):
@@ -27,7 +27,7 @@ class Classe(models.Model):
         ordering = ['nom_classe']
 
     def __str__(self):
-        return "Informations de {0}".format(self.user.username)
+        return "{0}".format(self.user.username)
 
 
 class Eleve(models.Model):
@@ -51,7 +51,7 @@ class Responsable_Eleve(Eleve):
         ordering = ['prenom_eleve']
 
     def __str__(self):
-        return "Informations de {0}".format(self.user.username)
+        return " {0}".format(self.user.username)
 
 class CahierTexte(models.Model):
     heure_cours=models.CharField(max_length=50)
@@ -79,7 +79,7 @@ class Prof(models.Model):
         verbose_name_plural = "Professeur"
 
     def __str__(self):
-        return "Informations de {0}".format(self.user.username)
+        return "{0}".format(self.user.username)
 
 class Responsable_Prof(Prof):
     id_classe = models.ForeignKey('Classe', on_delete=models.CASCADE)
@@ -107,7 +107,8 @@ class Cours(models.Model):
 class Notification(models.Model):
     date=models.DateTimeField(default=timezone.now, verbose_name='date d envoi')
     contenu=models.TextField()
-    id_prof=models.ForeignKey('Prof', on_delete=models.CASCADE)
+    id_prof_emmet= models.IntegerField()
+    id_prof_recep = models.ForeignKey('Prof', on_delete=models.CASCADE)
 
     class Meta :
         verbose_name_plural = "Notifications"
@@ -144,7 +145,7 @@ class Planning(models.Model):
     moduleJeudi = models.CharField(max_length=30, blank=True)
     moduleVendredi = models.CharField(max_length=30, blank=True)
     moduleSamedi = models.CharField(max_length=30, blank=True)
-    id_prof=models.ForeignKey('Prof', on_delete=models.CASCADE)
+    id_prof=models.ForeignKey('Responsable_Prof', on_delete=models.CASCADE)
     id_classe = models.ForeignKey('Classe', on_delete=models.CASCADE)
 
     class Meta:

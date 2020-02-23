@@ -51,7 +51,7 @@ def delPlanning(request, id):
     planning = Planning.objects.get(id=id)
     planning.delete()
     return redirect(reverse("index"))
-    return render(request, 'blog/del.html', locals())
+
 
 
 def ajout(request):
@@ -97,14 +97,18 @@ def delEleve(request,id):
 
 
 def notifications(request):
+    notif = Notification.objects.filter(id_prof_recep=1)
+    notif1 = Notification.objects.filter(id_prof_emmet=1)
+    res = Prof.objects.all()
     form = NotificationForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
             contenu = form.cleaned_data['contenu']
-            id_prof = form.cleaned_data['id_prof']
+            id_prof_emmet = form.cleaned_data['id_prof_emmet']
+            id_prof_recep = form.cleaned_data['id_prof_recep']
             form.save()
-            return redirect(reverse("ajout"))
-    return render(request, 'blog/ajout.html', locals())
+            return redirect(reverse("index"))
+    return render(request, 'blog/notification.html', locals())
 
 def cahier_texte(request):
     cours = Cours.objects.all()
