@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout, get_user
 from django.urls import reverse
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+import datetime
 
 # Create your views here.
 ##########################
@@ -164,17 +165,20 @@ def delEleve(request,id):
 
 @login_required(login_url='login')
 def notifications(request):
-    notif = Notification.objects.filter(id_prof_recep=1)
-    notif1 = Notification.objects.filter(id_prof_emmet=1)
+    notif = Notification.objects.filter(id_prof_recep=2)
+    notif1 = Notification.objects.filter(id_prof_emmet=2)
     res = Prof.objects.all()
+    a = datetime.datetime.now()
+    c = 2
     form = NotificationForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
+            date = a
             contenu = form.cleaned_data['contenu']
-            id_prof_emmet = form.cleaned_data['id_prof_emmet']
             id_prof_recep = form.cleaned_data['id_prof_recep']
+            id_prof_emmet = form.cleaned_data['id_prof_emmet']
             form.save()
-            return redirect(reverse("index"))
+            return redirect(reverse("notification"))
     return render(request, 'blog/notification.html', locals())
 
 @login_required(login_url='login')
