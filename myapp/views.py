@@ -42,7 +42,7 @@ def login_user(request):
         form=ConnexionForm()
         #return redirect(reverse('connexion'))
     return render(request,'blog/login.html',locals())
-##########################
+
 ##########################
 
 def home_prof(request):
