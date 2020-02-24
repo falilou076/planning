@@ -20,6 +20,15 @@ from myapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.login_user, name='login'),
+    path('home/', views.home_prof, name='home'),
+    path('plaquetteProf/', views.IndexPlaquetteProf, name='plaquetteProf'),
+
+
+    path('deconnexion/',views.deconnexion, name='deconnexion' ),
+    path('listeEleveProf/',views.liste_eleve_prof, name='listeEleveProf' ),
+
+
     path('EditEleve/<int:id>/', views.editEleve, name='EditEleve'),
     path('ajout/', views.ajout, name='ajout'),
     path('liste/', views.liste, name='liste'),

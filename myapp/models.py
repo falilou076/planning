@@ -74,6 +74,7 @@ class Prof(models.Model):
     nom_prof=models.CharField(max_length=50)
     prenom_prof=models.CharField(max_length=50)
     mail_prof=models.CharField(max_length=50)
+    classe=models.ManyToManyField(Classe)
 
     class Meta :
         verbose_name_plural = "Professeur"

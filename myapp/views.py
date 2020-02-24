@@ -1,12 +1,69 @@
 from django.shortcuts import render, reverse, redirect
 from .forms import *
 from .models import *
-# Create your views here.
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout, get_user
+from django.urls import reverse
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
+# Create your views here.
+##########################
+##########################
+def login_user(request):
+    error=False
+
+    if request.method =="POST":
+        form=ConnexionForm(request.POST)
+        if form.is_valid():
+            username=form.cleaned_data["username"]
+            password=form.cleaned_data["password"]
+
+            #Verification des donnees
+            user=authenticate(username=username, password=password)
+            if user: #L'objet renvoye n'est pas Null
+                login(request,user) #Collecte de l'utilisateur
+                respons_ped=Responsable_Prof.objects.filter(user=user)
+                prof=Prof.objects.filter(user=user)
+                if respons_ped:
+                    return render(request,'blog/index.html',{'respons_ped':respons_ped})
+                elif prof:
+                    return render(request,'blog/prof.html',{'prof':prof})
+
+                else:
+                    return render(request,'blog/test.html',locals())
+
+                
+            else: #Une erreur s'affiche
+                error=True
+
+    else:
+        form=ConnexionForm()
+        #return redirect(reverse('connexion'))
+    return render(request,'blog/login.html',locals())
+##########################
+##########################
+
+def home_prof(request):
+    return render(request,'blog/prof.html',locals())
+
+
+
+####Deconnexion
+@login_required(login_url='login')
+def deconnexion(request):
+    logout(request)
+    return redirect(reverse('login'))#using the the name url
+
+
+
+
+@login_required(login_url='login')
 def Index(request):
     planning  = Planning.objects.all()
     return render(request, 'blog/index.html', locals())
 
+@login_required(login_url='login')
 def addPlanning(request):
     form = PlanningForm(request.POST or None)
     res_profs = Responsable_Prof.objects.all()
@@ -27,6 +84,7 @@ def addPlanning(request):
             return redirect(reverse("index"))
     return render(request, 'blog/add.html', locals())
 
+@login_required(login_url='login')
 def editPlanning(request,id):
     res_profs = Responsable_Prof.objects.all()
     cours = Cours.objects.all()
@@ -46,14 +104,14 @@ def editPlanning(request,id):
             return redirect(reverse("index"))
     return render(request, 'blog/edit.html', locals())
 
-
+@login_required(login_url='login')
 def delPlanning(request, id):
     planning = Planning.objects.get(id=id)
     planning.delete()
     return redirect(reverse("index"))
 
 
-
+@login_required(login_url='login')
 def ajout(request):
     classe = Classe.objects.all()
     form = EleveForm(request.POST or None)
@@ -66,6 +124,7 @@ def ajout(request):
             return redirect(reverse("ajout"))
     return render(request, 'blog/ajout.html', locals())
 
+@login_required(login_url='login')
 def editEleve(request,id):
     eleve = Eleve.objects.get(id=id)
     form = EleveForm(request.POST or None)
@@ -79,23 +138,31 @@ def editEleve(request,id):
     return render(request, 'blog/editEleve.html', locals())
 
 
-
+@login_required(login_url='login')
 def liste(request):
     eleves  = Eleve.objects.all()
     return render(request, 'blog/liste.html', locals())
 
+###View pour prof
+@login_required(login_url='login')
+def liste_eleve_prof(request):
+    eleves  = Eleve.objects.all()
+    return render(request, 'blog/prof/liste_eleves.html', locals())
+
+@login_required(login_url='login')
 def liste_eleve(request):
     eleves  = Eleve.objects.all()
     profs = Prof.objects.all()
     return render(request, 'blog/liste_eleve.html', locals())
 
 
+@login_required(login_url='login')
 def delEleve(request,id):
     eleves = Eleve.objects.get(id=id)
     eleves.delete()
     return redirect(reverse("liste"))
 
-
+@login_required(login_url='login')
 def notifications(request):
     notif = Notification.objects.filter(id_prof_recep=1)
     notif1 = Notification.objects.filter(id_prof_emmet=1)
@@ -110,6 +177,7 @@ def notifications(request):
             return redirect(reverse("index"))
     return render(request, 'blog/notification.html', locals())
 
+@login_required(login_url='login')
 def cahier_texte(request):
     cours = Cours.objects.all()
     eleves = Responsable_Eleve.objects.all()
@@ -127,7 +195,7 @@ def cahier_texte(request):
     return render(request, 'blog/cahierTexte.html', locals())
 
 
-
+@login_required(login_url='login')
 def presence_absence(request):
     eleves = Eleve.objects.all()
     cours = Cours.objects.all()
@@ -146,12 +214,13 @@ def presence_absence(request):
     return render(request, 'blog/presence_absence.html', locals())
 
 
+@login_required(login_url='login')
 def Index_eleve(request):
     planning  = Planning.objects.all()
     return render(request, 'blog/index_eleve.html', locals())
 
 
-
+@login_required(login_url='login')
 def IndexPlaquette(request):
     ip = 0
     iw = 0
@@ -192,6 +261,50 @@ def IndexPlaquette(request):
     return render(request, 'blog/plaquette.html', locals())
 
 
+##############Plaquette prof##########################
+#####################################################
+@login_required(login_url='login')
+def IndexPlaquetteProf(request):
+    ip = 0
+    iw = 0
+    ic = 0
+    ik = 0
+    im = 0
+    d = 0
+    e = 0
+    f = 0
+    g = 0
+    plaquettes = Plaquette.objects.all()
+    for plaquette in plaquettes:
+        ip = ip + 1
+        for j in plaquettes:
+            if j.ec != "":
+                d = 1
+    plaquettes1 = Plaquette1.objects.all()
+    for plaquette1 in plaquettes1:
+        iw = iw + 1
+        for j in plaquettes1:
+            if j.ec != "":
+                e = 1
+    plaquettes2 = Plaquette2.objects.all()
+    for plaquette2 in plaquettes2:
+        ic = ic + 1
+        for j in plaquettes2:
+            if j.ec != "":
+                f = 1
+    plaquettes3 = Plaquette3.objects.all()
+    for plaquette3 in plaquettes3:
+        ik = ik + 1
+        for j in plaquettes3:
+            if j.ec != "":
+                g = 1
+    plaquettes4 = Plaquette4.objects.all()
+    for plaquette4 in plaquettes4:
+            im = im + 1
+    return render(request, 'blog/prof/plaquette_prof.html', locals())
+
+
+@login_required(login_url='login')
 def AjoutPlaquette(request):
     a = 0
     c = 0
@@ -215,7 +328,11 @@ def AjoutPlaquette(request):
             form.save()
             return redirect(reverse("plaquette"), locals())
     return render(request, 'blog/addPlaquette.html', locals())
+################ end plaquette prof#########################
 
+
+
+@login_required(login_url='login')
 def AjoutPlaquette1(request):
     a = 1
     c = 0
@@ -240,6 +357,8 @@ def AjoutPlaquette1(request):
             return redirect(reverse("plaquette"), locals())
     return render(request, 'blog/addPlaquette.html', locals())
 
+
+@login_required(login_url='login')
 def AjoutPlaquette2(request):
     a = 2
     c = 0
@@ -264,6 +383,7 @@ def AjoutPlaquette2(request):
             return redirect(reverse("plaquette"), locals())
     return render(request, 'blog/addPlaquette.html', locals())
 
+@login_required(login_url='login')
 def AjoutPlaquette3(request):
     a = 3
     c = 0
@@ -288,6 +408,7 @@ def AjoutPlaquette3(request):
             return redirect(reverse("plaquette"), locals())
     return render(request, 'blog/addPlaquette.html', locals())
 
+@login_required(login_url='login')
 def AjoutPlaquette4(request):
     a = 4
     c = 0
@@ -312,36 +433,38 @@ def AjoutPlaquette4(request):
             return redirect(reverse("plaquette"), locals())
     return render(request, 'blog/addPlaquette.html', locals())
 
-
+@login_required(login_url='login')
 def DelPlaquette(request, id):
     plaquettes = Plaquette.objects.get(id=id)
     plaquettes.delete()
     return redirect(reverse("plaquette"))
 
-
+@login_required(login_url='login')
 def DelPlaquette1(request, id):
     plaquettes = Plaquette1.objects.get(id=id)
     plaquettes.delete()
     return redirect(reverse("plaquette"))
 
 
+@login_required(login_url='login')
 def DelPlaquette2(request, id):
     plaquettes = Plaquette2.objects.get(id=id)
     plaquettes.delete()
     return redirect(reverse("plaquette"))
 
-
+@login_required(login_url='login')
 def DelPlaquette3(request, id):
     plaquettes = Plaquette3.objects.get(id=id)
     plaquettes.delete()
     return redirect(reverse("plaquette"))
 
-
+@login_required(login_url='login')
 def DelPlaquette4(request, id):
     plaquettes = Plaquette4.objects.get(id=id)
     plaquettes.delete()
     return redirect(reverse("plaquette"))
 
+@login_required(login_url='login')
 def editPlaquette(request, id):
     a = 0
     c = 0
@@ -365,6 +488,7 @@ def editPlaquette(request, id):
             return redirect(reverse("plaquette"), locals())
     return render(request, 'blog/editPlaqutte.html', locals())
 
+@login_required(login_url='login')
 def editPlaquette1(request, id):
     a = 1
     c = 0
@@ -388,6 +512,7 @@ def editPlaquette1(request, id):
             return redirect(reverse("plaquette"), locals())
     return render(request, 'blog/editPlaqutte.html', locals())
 
+@login_required(login_url='login')
 def editPlaquette2(request, id):
     a = 2
     c = 0
@@ -411,6 +536,7 @@ def editPlaquette2(request, id):
             return redirect(reverse("plaquette"), locals())
     return render(request, 'blog/editPlaqutte.html', locals())
 
+@login_required(login_url='login')
 def editPlaquette3(request, id):
     a = 3
     c = 0
@@ -434,6 +560,7 @@ def editPlaquette3(request, id):
             return redirect(reverse("plaquette"), locals())
     return render(request, 'blog/editPlaqutte.html', locals())
 
+@login_required(login_url='login')
 def editPlaquette4(request, id):
     a = 4
     c = 0

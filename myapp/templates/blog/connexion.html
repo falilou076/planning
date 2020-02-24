@@ -1,0 +1,37 @@
+ q<h1>Se connecter</h1>
+
+{% if error %}
+<p><strong>Utilisateur inconnu ou mauvais mot de passe.</strong></p>
+{%endif%}
+
+{% if user.is_authenticated %}
+	Vous etes connecte, {{user.username}}
+	<br>
+	<p>Bienvenu {{user.eleve.prenom}} {{user.eleve.nom}}</p>
+	<p>Classe:{{user.eleve.classe}}</p>
+	<p>Date de connexion:{{user.last_login}}</p>
+	
+	
+	
+	
+
+
+	<br>
+	<a href="{% url 'deconnexion' %}">Log out</a>
+{% else %}
+<form method="post" action="{% url 'connexion' %}">
+	{% csrf_token%}
+	{{form.username.label}}
+	<br>
+	{{form.username}}
+	<br>
+	{{form.password.label}}
+	<br>
+	{{form.password}}
+
+	<input type="submit" name="" value="Se connecter">
+</form>
+
+
+
+{%endif%}

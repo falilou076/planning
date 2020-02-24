@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>CRUD Django</title>
+    {% load static %}
+      <link href="{% static 'blog/css/_modal.scss' %}" rel="stylesheet">
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'blog/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Animate CSS -->
+    <link href="{% static 'blog/css/animate.min.css' %}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% static 'blog/css/sb-admin.css' %}" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="{% static 'blog/css/plugins/morris.css' %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static 'blog/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="{% static 'https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js' %}"></script>
+        <script src="{% static 'https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js' %}"></script>
+    <![endif]-->
+
+</head>
+
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand wow zoomIn" href="{% url 'home' %}"> {{user.username}}</a>
+            </div>
+
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="">
+                        <a href="{% url 'home' %}"><i class="fa fa-fw fa-dashboard"></i> <i class="fas fa-file-alt"></i>Home</a>
+                    </li>
+                   
+                    <li class="">
+                        <a href="{% url 'listeEleveProf' %}"><i class="fa fa-file" aria-hidden="true"> </i> Liste des eleves</a>
+                    </li>
+                     <li class="">
+                        <a href="{% url 'notification' %}"><i class="fa fa-paper-plane" aria-hidden="true"></i>  Envoyer un message</a>
+                    </li>
+
+                    <li class="">
+                        <a href="{% url 'deconnexion' %}"><i class="fa fa-paper-plane" aria-hidden="true"></i> Deconnexion</a>
+                    </li>
+
+
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2 class="page-header animated fadeInLeft">
+                            Maquette <small>Create, Read, Update and Delete</small>
+                        </h2>
+
+                    </div>
+                </div>
+                <!-- /.row -->
+
+
+             <div class="col-lg-12">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-striped animated fadeInRight">
+                                <thead>
+                                 <tr>
+                                    <th class="col-lg-1 " colspan="14" style="text-align: center; background-color: rgb(255,255,204);:TD">Plaquette Genie informatique</th>
+                                 </tr>
+                                    <tr>
+                                        <th class="" style="text-align: center; background-color: rgb(110,110,110);">U.E</th>
+                                        <th class="" style="text-align: center; background-color: rgb(130, 130, 130);">E.C</th>
+                                        <th class="" style="text-align: center; background-color: rgb(150, 150, 150);">CM</th>
+                                        <th class="" style="text-align: center; background-color: rgb(150, 150, 150);">TP/TD</th>
+                                        <th class="" style="text-align: center; background-color: rgb(150, 150, 150);">Total</th>
+                                        <th class="" style="text-align: center; background-color: rgb(150, 150, 150);">TPE</th>
+                                        <th class="" style="text-align: center; background-color: rgb(170, 170, 170);">ECTS</th>
+                                        <th class="" style="text-align: center; background-color: rgb(190, 190, 190);">Total ECTS</th>
+                                        <th class="" style="text-align: center; background-color: rgb(210, 210, 210);">Coeff</th>
+                                        <th class="" style="text-align: center; background-color: rgb(230, 230, 230);">Coeff details</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% if ip == 0 %}
+                            <tr  style="text-align: center; display:none;">
+                                {% else %}
+                                <tr style="text-align: center;">
+
+                                <td rowspan={{ ip }} >{% for i in plaquettes %} <b>{{ i.ue }}</b>{% endfor %}</td>
+
+                                {% for i in plaquettes %}
+                                <td style="text-align: center;">{{ i.ec }}</td>
+                                <td style="text-align: center;">{{ i.cm }}</td>
+                                <td style="text-align: center;">{{ i.tpd }}</td>
+                                <td style="text-align: center;">{{ i.ttal }}</td>
+                                <td style="text-align: center;">{{ i.tpe }}</td>
+                                <td style="text-align: center;">{{ i.ects }}</td>
+                                {% if i.coefs != '' or i.total_Ects != '' %}
+                                <td style="text-align-center;" rowspan={{ ip }}>{{ i.total_Ects}}</td>
+                                <td style="text-align: center;" rowspan={{ ip }}>{{ i.coefs }}</td>
+                                {% endif %}
+                                <td style="text-align: center;">{{ i.coefs_details}}</td>
+
+                                
+                            </tr>
+                             {% endfor %}
+                            {% endif %}
+
+                            {% if iw == 0 %}
+                            <tr style="text-align: center; display:none;">
+                                {% else %}
+                                <tr style="text-align: center;">
+                                <td rowspan={{ iw }} >{% for i in plaquettes1 %} <b>{{ i.ue }}</b>{% endfor %}</td>
+                                {% for i in plaquettes1 %}
+                                <td style="text-align: center;">{{ i.ec }}</td>
+                                <td style="text-align: center;">{{ i.cm }}</td>
+                                <td style="text-align: center;">{{ i.tpd }}</td>
+                                <td style="text-align: center;">{{ i.ttal }}</td>
+                                <td style="text-align: center;">{{ i.tpe }}</td>
+                                <td style="text-align: center;">{{ i.ects }}</td>
+                                {% if i.coefs != '' or i.total_Ects != '' %}
+                                <td style="text-align-center;" rowspan={{ iw }}>{{ i.total_Ects}}</td>
+                                <td style="text-align: center;" rowspan={{ iw }}>{{ i.coefs }}</td>
+                                {% endif %}
+                                <td style="text-align: center;">{{ i.coefs_details}}</td>
+
+                               
+                            </tr>
+                             {% endfor %}
+                            {% endif %}
+
+                            {% if ic == 0 %}
+                            <tr style="text-align: center; display:none;">
+                                {% else %}
+                                <tr style="text-align: center;">
+                                <td rowspan={{ ic }} >{% for i in plaquettes2 %} <b>{{ i.ue }}</b>{% endfor %}</td>
+                                {% for i in plaquettes2 %}
+                                <td style="text-align: center;">{{ i.ec }}</td>
+                                <td style="text-align: center;">{{ i.cm }}</td>
+                                <td style="text-align: center;">{{ i.tpd }}</td>
+                                <td style="text-align: center;">{{ i.ttal }}</td>
+                                <td style="text-align: center;">{{ i.tpe }}</td>
+                                <td style="text-align: center;">{{ i.ects }}</td>
+                                {% if i.coefs != '' or i.total_Ects != '' %}
+                                <td style="text-align-center;" rowspan={{ ic }}>{{ i.total_Ects}}</td>
+                                <td style="text-align: center;" rowspan={{ ic }}>{{ i.coefs }}</td>
+                                {% endif %}
+                                <td style="text-align: center;">{{ i.coefs_details}}</td>
+
+                                
+                            </tr>
+
+                             {% endfor %}
+                            {% endif %}
+
+                                    {% if ik == 0 %}
+                                  <tr style="text-align: center; display:none;">
+                                      {% else %}
+                                <tr style="text-align: center;">
+                                <td style="display:none;" rowspan={{ ik }} >{% for i in plaquettes3 %} <b>{{ i.ue }}</b>{% endfor %}</td>
+
+                                {% for i in plaquettes3 %}
+                                <td style="text-align: center;">{{ i.ec }}</td>
+                                <td style="text-align: center;">{{ i.cm }}</td>
+                                <td style="text-align: center;">{{ i.tpd }}</td>
+                                <td style="text-align: center;">{{ i.ttal }}</td>
+                                <td style="text-align: center;">{{ i.tpe }}</td>
+                                <td style="text-align: center;">{{ i.ects }}</td>
+                                {% if i.coefs != '' or i.total_Ects != '' %}
+                                <td style="text-align-center;" rowspan={{ ik }}>{{ i.total_Ects}}</td>
+                                <td style="text-align: center;" rowspan={{ ik }}>{{ i.coefs }}</td>
+                                {% endif %}
+                                <td style="text-align: center;">{{ i.coefs_details}}</td>
+
+                               
+                            </tr>
+                             {% endfor %}
+                             {% endif %}
+                                    {% if im == 0 %}
+                                  <tr style="text-align: center; display: none;">
+                                      {% else %}
+                                <tr style="text-align: center;">
+                                <td rowspan={{ im }} >{% for i in plaquettes4 %} <b>{{ i.ue }}</b>{% endfor %}</td>
+                                {% for i in plaquettes4 %}
+                                <td style="text-align: center;">{{ i.ec }}</td>
+                                <td style="text-align: center;">{{ i.cm }}</td>
+                                <td style="text-align: center;">{{ i.tpd }}</td>
+                                <td style="text-align: center;">{{ i.ttal }}</td>
+                                <td style="text-align: center;">{{ i.tpe }}</td>
+                                <td style="text-align: center;">{{ i.ects }}</td>
+                                {% if i.coefs != '' or i.total_Ects != '' %}
+                                <td style="text-align-center;" rowspan={{ im }}>{{ i.total_Ects}}</td>
+                                <td style="text-align: center;" rowspan={{ im }}>{{ i.coefs }}</td>
+                                {% endif %}
+                                <td style="text-align: center;">{{ i.coefs_details}}</td>
+
+                                
+                            </tr>
+                             {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="{% static 'blog/js/jquery.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'blog/js/bootstrap.min.js' %}"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="{% static 'blog/js/plugins/morris/raphael.min.js' %}"></script>
+    <script src="{% static 'blog/js/plugins/morris/morris.min.js' %}"></script>
+    <script src="{% static 'blog/js/plugins/morris/morris-data.js' %}"></script>
+    <script src="{% static 'blog/js/wow.min.js' %}"></script>
+    <script>
+    new WOW().init();
+</script>
+</body>
+
+</html>
