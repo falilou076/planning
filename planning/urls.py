@@ -22,11 +22,17 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.login_user, name='login'),
     path('home/', views.home_prof, name='home'),
+    path('homeSe/', views.home_secretaire, name='homeSec'),
+
     path('plaquetteProf/', views.IndexPlaquetteProf, name='plaquetteProf'),
+    path('plaquetteSec/', views.IndexPlaquetteSec, name='plaquetteSec'),
+
 
 
     path('deconnexion/',views.deconnexion, name='deconnexion' ),
     path('listeEleveProf/',views.liste_eleve_prof, name='listeEleveProf' ),
+    path('listeEleveSecret/',views. liste_eleve_secretaire, name='liste_eleve_secretaire' ),
+
 
 
     path('EditEleve/<int:id>/', views.editEleve, name='EditEleve'),
