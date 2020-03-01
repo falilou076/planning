@@ -34,6 +34,7 @@ class Eleve(models.Model):
     nom_eleve=models.CharField(max_length=50)
     prenom_eleve=models.CharField(max_length=50)
     id_classe=models.ForeignKey('Classe', on_delete=models.CASCADE)
+    email = models.EmailField(blank=True)
 
     class Meta:
         verbose_name_plural = "Eleve"
@@ -57,7 +58,7 @@ class CahierTexte(models.Model):
     heure_cours=models.CharField(max_length=50)
     date=models.DateField()
     contenu=models.TextField()
-    id_eleve=models.ForeignKey('Responsable_Eleve', on_delete=models.CASCADE)
+    id_classe=models.ForeignKey('Classe', on_delete=models.CASCADE)
     id_cours=models.ForeignKey('Cours', on_delete=models.CASCADE)
 
 
@@ -118,7 +119,7 @@ class Notification(models.Model):
         return self.contenu
 
 class Enseigner(models.Model):
-    id_classe=models.ForeignKey('Classe', on_delete=models.CASCADE)
+    id_cours=models.ManyToManyField(Cours)
     id_prof=models.ForeignKey('Prof', on_delete=models.CASCADE)
 
     class Meta :
@@ -129,6 +130,7 @@ class Enseigner(models.Model):
 class PresAbs(models.Model):
     nom_eleve=models.CharField(max_length=400)
     id_cours=models.ForeignKey('Cours', on_delete=models.CASCADE)
+    id_classe = models.ForeignKey('Classe', on_delete=models.CASCADE)
     date = models.DateField()
     heure = models.CharField(max_length=10)
 
@@ -168,6 +170,7 @@ class Plaquette(models.Model):
     total_Ects = models.CharField(max_length=3, blank=True)
     coefs = models.CharField( max_length=2, blank=True)
     coefs_details = models.IntegerField()
+    id_classe = models.ForeignKey('Classe', on_delete=models.CASCADE)
 
 
     class Meta:
@@ -187,7 +190,7 @@ class Plaquette1(models.Model):
     total_Ects = models.CharField(max_length=3, blank=True)
     coefs = models.CharField( max_length=2, blank=True)
     coefs_details = models.IntegerField()
-
+    id_classe = models.ForeignKey('Classe', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "Plaquette1"
@@ -206,7 +209,7 @@ class Plaquette2(models.Model):
     total_Ects = models.CharField(max_length=3, blank=True)
     coefs = models.CharField( max_length=2, blank=True)
     coefs_details = models.IntegerField()
-
+    id_classe = models.ForeignKey('Classe', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "Plaquette2"
@@ -225,7 +228,7 @@ class Plaquette3(models.Model):
     total_Ects = models.CharField(max_length=3, blank=True)
     coefs = models.CharField( max_length=2, blank=True)
     coefs_details = models.IntegerField()
-
+    id_classe = models.ForeignKey('Classe', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "Plaquette3"
@@ -244,7 +247,7 @@ class Plaquette4(models.Model):
     total_Ects = models.CharField(max_length=3, blank=True)
     coefs = models.CharField( max_length=2, blank=True)
     coefs_details = models.IntegerField()
-
+    id_classe = models.ForeignKey('Classe', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "Plaquette4"

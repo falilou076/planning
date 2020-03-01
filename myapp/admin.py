@@ -14,4 +14,5 @@ admin.site.register(PresAbs)
 admin.site.register(Planning)
 admin.site.register(Responsable_Eleve)
 admin.site.register(Responsable_Prof)
+admin.site.register(Plaquette)
 
