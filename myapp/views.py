@@ -28,14 +28,20 @@ def login_user(request):
                 respons_ele = Responsable_Eleve.objects.filter(user=user)
                 classe = Classe.objects.filter(user=user)
                 prof=Prof.objects.filter(user=user)
+                secretaire=Secretaire.objects.filter(user=user)
                 if respons_ped:
                     return redirect("index")
                 elif prof:
+
                     return render(request,'blog/prof.html',{'prof':prof})
                 elif respons_ele:
                     return redirect("index_eleve")
                 elif classe:
                     return redirect("classe")
+
+                    return render(request,'prof.html',{'prof':prof})
+                elif secretaire:
+                    return render(request,'secretaire.html',{'secretaire':secretaire})
 
                 else:
                     return render(request,'blog/test.html',locals())
@@ -52,7 +58,10 @@ def login_user(request):
 ##########################
 
 def home_prof(request):
-    return render(request,'blog/prof.html',locals())
+    return render(request,'prof.html',locals())
+
+def home_secretaire(request):
+    return render(request,'secretaire.html',locals())
 
 
 
@@ -296,11 +305,39 @@ def editEleve(request,id):
     return render(request, 'editeleve.html', locals())
 
 
+
 ###View pour prof
+
+@login_required(login_url='login')
+def liste(request):
+    eleves  = Eleve.objects.all()
+    return render(request, 'blog/liste.html', locals())
+
+###View pour prof 
+
 @login_required(login_url='login')
 def liste_eleve_prof(request):
-    eleves  = Eleve.objects.all()
-    return render(request, 'blog/prof/liste_eleves.html', locals())
+    eleves  = Eleve.objects.filter(id_classe=1)
+    return render(request, 'listes_eleves.html', locals())
+
+def liste_eleve_secretaire(request):
+    eleves  = Eleve.objects.filter(id_classe=1)
+    return render(request, 'secretaire_liste_elev.html', locals())
+
+@login_required(login_url='login')
+def liste_eleve_prof2(request):
+    eleves2  = Eleve.objects.filter(id_classe=2)
+    return render(request, 'listes_eleves.html', locals())
+
+@login_required(login_url='login')
+def liste_eleve_prof3(request):
+    eleves3  = Eleve.objects.filter(id_classe=3)
+    return render(request, 'listes_eleves.html', locals())
+
+
+
+
+
 
 @login_required(login_url='login')
 def liste_eleve(request):
@@ -528,7 +565,50 @@ def IndexPlaquetteProf(request):
     plaquettes4 = Plaquette4.objects.all()
     for plaquette4 in plaquettes4:
             im = im + 1
-    return render(request, 'blog/prof/plaquette_prof.html', locals())
+    return render(request, 'plaquette.html', locals())
+
+@login_required(login_url='login')
+def IndexPlaquetteSec(request):
+    ip = 0
+    iw = 0
+    ic = 0
+    ik = 0
+    im = 0
+    d = 0
+    e = 0
+    f = 0
+    g = 0
+    plaquettes = Plaquette.objects.all()
+    for plaquette in plaquettes:
+        ip = ip + 1
+        for j in plaquettes:
+            if j.ec != "":
+                d = 1
+    plaquettes1 = Plaquette1.objects.all()
+    for plaquette1 in plaquettes1:
+        iw = iw + 1
+        for j in plaquettes1:
+            if j.ec != "":
+                e = 1
+    plaquettes2 = Plaquette2.objects.all()
+    for plaquette2 in plaquettes2:
+        ic = ic + 1
+        for j in plaquettes2:
+            if j.ec != "":
+                f = 1
+    plaquettes3 = Plaquette3.objects.all()
+    for plaquette3 in plaquettes3:
+        ik = ik + 1
+        for j in plaquettes3:
+            if j.ec != "":
+                g = 1
+    plaquettes4 = Plaquette4.objects.all()
+    for plaquette4 in plaquettes4:
+            im = im + 1
+    return render(request, 'plaquette_secret.html', locals())
+
+
+
 
 
 @login_required(login_url='login')
@@ -901,31 +981,7 @@ def editPlaquette4(request, id):
             return redirect(reverse("index"), locals())
     return render(request, 'editplaquette.html', locals())
 
-@login_required(login_url='login')
-def secretaire(request):
-    classe1 = Classe.objects.filter(id=1)
-    classe2 = Classe.objects.filter(id=2)
-    classe3 = Classe.objects.filter(id=3)
-    planning1 = Planning.objects.filter(id_classe=1)
-    planning2 = Planning.objects.filter(id_classe=2)
-    planning3 = Planning.objects.filter(id_classe=3)
-    eleves1 = Eleve.objects.filter(id_classe=1)
-    eleves2 = Eleve.objects.filter(id_classe=2)
-    eleves3 = Eleve.objects.filter(id_classe=3)
-    return render(request, 'secretaire.html', locals())
 
-@login_required(login_url='login')
-def cahiersecretaire(request):
-    classe1 = Classe.objects.filter(id=1)
-    classe2 = Classe.objects.filter(id=2)
-    classe3 = Classe.objects.filter(id=3)
-    presabs1 = PresAbs.objects.filter(id_classe=1)
-    presabs2 = PresAbs.objects.filter(id_classe=2)
-    presabs3 = PresAbs.objects.filter(id_classe=3)
-    cahiertexte1 = CahierTexte.objects.filter(id_classe=1)
-    cahiertexte2 = CahierTexte.objects.filter(id_classe=2)
-    cahiertexte3 = CahierTexte.objects.filter(id_classe=3)
-    return render(request, 'cahiersecretaire.html', locals())
 
 @login_required(login_url='login')
 def classe(request):

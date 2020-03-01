@@ -22,11 +22,17 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.login_user, name='login'),
     path('home/', views.home_prof, name='home'),
+    path('homeSe/', views.home_secretaire, name='homeSec'),
+
     path('plaquetteProf/', views.IndexPlaquetteProf, name='plaquetteProf'),
+    path('plaquetteSec/', views.IndexPlaquetteSec, name='plaquetteSec'),
+
 
 
     path('deconnexion/',views.deconnexion, name='deconnexion' ),
     path('listeEleveProf/',views.liste_eleve_prof, name='listeEleveProf' ),
+    path('listeEleveSecret/',views. liste_eleve_secretaire, name='liste_eleve_secretaire' ),
+
 
 
     path('EditEleve/<int:id>/', views.editEleve, name='EditEleve'),
@@ -54,8 +60,7 @@ urlpatterns = [
     path('DelPlaquette2/<int:id>/', views.DelPlaquette2, name='delplaquette2'),
     path('DelPlaquette3/<int:id>/', views.DelPlaquette3, name='delplaquette3'),
     path('DelPlaquette4/<int:id>/', views.DelPlaquette4, name='delplaquette4'),
-    path('secretaire/', views.secretaire, name='secretaire'),
-    path('cahiersecretaire/', views.cahiersecretaire, name='cahiersecretaire'),
+
     path('classe/', views.classe, name='classe'),
 
 ]
