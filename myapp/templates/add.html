@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Gentelella Alela! | </title>
+    <title>{{ user.username }} </title>
 
     {% load static %}
 
@@ -37,7 +37,9 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="{% static 'images/img.jpg' %}" alt="..." class="img-circle profile_img">
+                {% for i in res_profs %}
+               <img src="{{ i.photo.url }}" class="img-circle profile_img">
+                {% endfor %}
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
@@ -55,7 +57,7 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{% url 'index' %}"> Voir emploi du temps</a></li>
+                      <li><a href="{% url 'index' %}"> CRUD planning-plaquette</a></li>
                     </ul>
                   </li>
 
@@ -88,7 +90,9 @@
                 <ul class=" navbar-right">
                   <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                      <img src="{% static 'images/img.jpg' %}" alt="">{{ user.username }}
+                         {% for i in res_profs %}
+                      <img src="{{ i.photo.url }}" alt="">
+                       {% endfor %}{{ user.username }}
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
 
@@ -224,7 +228,7 @@
                                     </optgroup>
                                 </select>
                                </div>
-                            <div class="form-group" >
+                            <div class="form-group" hidden="True" >
                                 <select name="id_classe">
                                     <optgroup label="Responsable">
 

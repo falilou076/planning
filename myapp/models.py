@@ -9,7 +9,7 @@ class Secretaire(models.Model):
     prenom=models.CharField(max_length=50)
     mail=models.CharField(max_length=100)
     telephone=models.CharField(max_length=20)
-
+    photo = models.ImageField(upload_to="Images/")
     class Meta :
         verbose_name_plural = "Secretaire"
 
@@ -21,7 +21,7 @@ class Secretaire(models.Model):
 class Classe(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)  # Liaison 0netoOne vers le model User
     nom_classe=models.CharField(max_length=50)
-
+    photo = models.ImageField(upload_to="Images/")
     class Meta:
         verbose_name_plural = "Classe"
         ordering = ['nom_classe']
@@ -75,6 +75,7 @@ class Prof(models.Model):
     nom_prof=models.CharField(max_length=50)
     prenom_prof=models.CharField(max_length=50)
     mail_prof=models.CharField(max_length=50)
+    photo = models.ImageField(upload_to="Images/")
     classe=models.ManyToManyField(Classe)
 
     class Meta :
@@ -124,6 +125,9 @@ class Enseigner(models.Model):
 
     class Meta :
         verbose_name_plural = "Enseigner"
+
+    def __str__(self):
+        return str (self.id_prof)
 
 
 

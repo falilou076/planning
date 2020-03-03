@@ -39,9 +39,8 @@ def login_user(request):
                 elif classe:
                     return redirect("classe")
 
-                    return render(request,'prof.html',{'prof':prof})
                 elif secretaire:
-                    return render(request,'secretaire.html',{'secretaire':secretaire})
+                    return redirect("secretaire")
 
                 else:
                     return render(request,'blog/test.html',locals())
@@ -60,18 +59,11 @@ def login_user(request):
 def home_prof(request):
     return render(request,'prof.html',locals())
 
-def home_secretaire(request):
-    return render(request,'secretaire.html',locals())
-
-
-
 ####Deconnexion
 @login_required(login_url='login')
 def deconnexion(request):
     logout(request)
     return redirect(reverse('login'))#using the the name url
-
-
 
 
 @login_required(login_url='login')
@@ -90,7 +82,7 @@ def Index(request):
     res_profs = Responsable_Prof.objects.all()
     cours = Cours.objects.all()
     classe = Classe.objects.all()
-    res_profs = Responsable_Prof.objects.all()
+
 
     if (z == "Ahmed"):
         plaquettes = Plaquette.objects.filter(id_classe=1)
@@ -121,12 +113,8 @@ def Index(request):
         for plaquette4 in plaquettes4:
             im = im + 1
         planning = Planning.objects.filter(id_classe=1)
-        plaquettes = Plaquette.objects.filter(id_classe=1)
-        plaquettes1 = Plaquette1.objects.filter(id_classe=1)
-        plaquettes2 = Plaquette2.objects.filter(id_classe=1)
-        plaquettes3 = Plaquette3.objects.filter(id_classe=1)
-        plaquettes4 = Plaquette4.objects.filter(id_classe=1)
         eleves = Eleve.objects.filter(id_classe=1)
+        res_profs = Responsable_Prof.objects.filter(id_classe=1)
 
     elif (z == "Abdoulaye"):
         plaquettes = Plaquette.objects.filter(id_classe=2)
@@ -157,12 +145,8 @@ def Index(request):
         for plaquette4 in plaquettes4:
             im = im + 1
         planning = Planning.objects.filter(id_classe=2)
-        plaquettes = Plaquette.objects.filter(id_classe=2)
-        plaquettes1 = Plaquette1.objects.filter(id_classe=2)
-        plaquettes2 = Plaquette2.objects.filter(id_classe=2)
-        plaquettes3 = Plaquette3.objects.filter(id_classe=2)
-        plaquettes4 = Plaquette4.objects.filter(id_classe=2)
         eleves = Eleve.objects.filter(id_classe=2)
+        res_profs = Responsable_Prof.objects.filter(id_classe=2)
     else:
         plaquettes = Plaquette.objects.filter(id_classe=3)
         for plaquette in plaquettes:
@@ -192,29 +176,27 @@ def Index(request):
         for plaquette4 in plaquettes4:
             im = im + 1
         planning = Planning.objects.filter(id_classe=3)
-        plaquettes = Plaquette.objects.filter(id_classe=3)
-        plaquettes1 = Plaquette1.objects.filter(id_classe=3)
-        plaquettes2 = Plaquette2.objects.filter(id_classe=3)
-        plaquettes3 = Plaquette3.objects.filter(id_classe=3)
-        plaquettes4 = Plaquette4.objects.filter(id_classe=3)
         eleves = Eleve.objects.filter(id_classe=3)
+        res_profs = Responsable_Prof.objects.filter(id_classe=3)
     return render(request, 'index.html', locals())
 
 @login_required(login_url='login')
 def addPlanning(request):
     form = PlanningForm(request.POST or None)
-    res_profs = Responsable_Prof.objects.all()
     cours = Cours.objects.all()
     z = get_user(request).get_username()
     if (z == "Ahmed"):
         cours = Cours.objects.filter(id_classe=1)
         classe = Classe.objects.filter(id=1)
+        res_profs = Responsable_Prof.objects.filter(id_classe=1)
     elif (z == "Abdoulaye"):
         classe = Classe.objects.filter(id=2)
         cours = Cours.objects.filter(id_classe=2)
+        res_profs = Responsable_Prof.objects.filter(id_classe=2)
     else:
         classe = Classe.objects.filter(id=3)
         cours = Cours.objects.filter(id_classe=3)
+        res_profs = Responsable_Prof.objects.filter(id_classe=3)
     if request.method == "POST":
         if form.is_valid():
             heure = form.cleaned_data['heure']
@@ -236,12 +218,15 @@ def editPlanning(request, id):
     if (z == "Ahmed"):
         classe = Classe.objects.filter(id=1)
         cours = Cours.objects.filter(id_classe=1)
+        res_profs = Responsable_Prof.objects.filter(id_classe=1)
     elif (z == "Abdoulaye"):
         classe = Classe.objects.filter(id=2)
         cours = Cours.objects.filter(id_classe=2)
+        res_profs = Responsable_Prof.objects.filter(id_classe=2)
     else:
         classe = Classe.objects.filter(id=3)
         cours = Cours.objects.filter(id_classe=3)
+        res_profs = Responsable_Prof.objects.filter(id_classe=3)
     planning = Planning.objects.get(id=id)
     form = PlanningForm(request.POST or None)
     if request.method == "POST":
@@ -269,10 +254,13 @@ def ajout(request):
     z = get_user(request).get_username()
     if (z == "Ahmed"):
         classe = Classe.objects.filter(id=1)
+        res_profs = Responsable_Prof.objects.filter(id_classe=1)
     elif (z == "Abdoulaye"):
         classe = Classe.objects.filter(id=2)
+        res_profs = Responsable_Prof.objects.filter(id_classe=2)
     else:
         classe = Classe.objects.filter(id=3)
+        res_profs = Responsable_Prof.objects.filter(id_classe=3)
     form = EleveForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
@@ -289,10 +277,13 @@ def editEleve(request,id):
     z = get_user(request).get_username()
     if (z == "Ahmed"):
         classe = Classe.objects.filter(id=1)
+        res_profs = Responsable_Prof.objects.filter(id_classe=1)
     elif (z == "Abdoulaye"):
         classe = Classe.objects.filter(id=2)
+        res_profs = Responsable_Prof.objects.filter(id_classe=2)
     else:
         classe = Classe.objects.filter(id=3)
+        res_profs = Responsable_Prof.objects.filter(id_classe=3)
     eleve = Eleve.objects.get(id=id)
     form = EleveForm(request.POST or None)
     if request.method == "POST":
@@ -320,9 +311,6 @@ def liste_eleve_prof(request):
     eleves  = Eleve.objects.filter(id_classe=1)
     return render(request, 'listes_eleves.html', locals())
 
-def liste_eleve_secretaire(request):
-    eleves  = Eleve.objects.filter(id_classe=1)
-    return render(request, 'secretaire_liste_elev.html', locals())
 
 @login_required(login_url='login')
 def liste_eleve_prof2(request):
@@ -465,6 +453,7 @@ def delEleve(request,id):
 @login_required(login_url='login')
 def notifications(request, id):
     notif = Notification.objects.filter(id_prof_recep=id)
+    res_profs = Responsable_Prof.objects.get(id=id)
     notif1 = Notification.objects.filter(id_prof_emmet=id)
     res = Prof.objects.all()
     a = datetime.datetime.now()
@@ -567,49 +556,6 @@ def IndexPlaquetteProf(request):
             im = im + 1
     return render(request, 'plaquette.html', locals())
 
-@login_required(login_url='login')
-def IndexPlaquetteSec(request):
-    ip = 0
-    iw = 0
-    ic = 0
-    ik = 0
-    im = 0
-    d = 0
-    e = 0
-    f = 0
-    g = 0
-    plaquettes = Plaquette.objects.all()
-    for plaquette in plaquettes:
-        ip = ip + 1
-        for j in plaquettes:
-            if j.ec != "":
-                d = 1
-    plaquettes1 = Plaquette1.objects.all()
-    for plaquette1 in plaquettes1:
-        iw = iw + 1
-        for j in plaquettes1:
-            if j.ec != "":
-                e = 1
-    plaquettes2 = Plaquette2.objects.all()
-    for plaquette2 in plaquettes2:
-        ic = ic + 1
-        for j in plaquettes2:
-            if j.ec != "":
-                f = 1
-    plaquettes3 = Plaquette3.objects.all()
-    for plaquette3 in plaquettes3:
-        ik = ik + 1
-        for j in plaquettes3:
-            if j.ec != "":
-                g = 1
-    plaquettes4 = Plaquette4.objects.all()
-    for plaquette4 in plaquettes4:
-            im = im + 1
-    return render(request, 'plaquette_secret.html', locals())
-
-
-
-
 
 @login_required(login_url='login')
 def AjoutPlaquette(request):
@@ -619,12 +565,15 @@ def AjoutPlaquette(request):
     if (z == "Ahmed"):
         pal = Plaquette.objects.filter(id_classe=1)
         classe = Classe.objects.filter(id=1)
+        res_profs = Responsable_Prof.objects.filter(id_classe=1)
     elif (z == "Abdoulaye"):
         pal = Plaquette.objects.filter(id_classe=2)
         classe = Classe.objects.filter(id=2)
+        res_profs = Responsable_Prof.objects.filter(id_classe=2)
     else:
         pal = Plaquette.objects.filter(id_classe=3)
         classe = Classe.objects.filter(id=3)
+        res_profs = Responsable_Prof.objects.filter(id_classe=3)
     for i in pal:
         c += 1
     form = PlaquetteForm(request.POST or None)
@@ -656,12 +605,15 @@ def AjoutPlaquette1(request):
     if (z == "Ahmed"):
         pal = Plaquette1.objects.filter(id_classe=1)
         classe = Classe.objects.filter(id=1)
+        res_profs = Responsable_Prof.objects.filter(id_classe=1)
     elif (z == "Abdoulaye"):
         pal = Plaquette1.objects.filter(id_classe=2)
         classe = Classe.objects.filter(id=2)
+        res_profs = Responsable_Prof.objects.filter(id_classe=2)
     else:
         pal = Plaquette1.objects.filter(id_classe=3)
         classe = Classe.objects.filter(id=3)
+        res_profs = Responsable_Prof.objects.filter(id_classe=3)
     for i in pal:
         c += 1
     form = Plaquette1Form(request.POST or None)
@@ -691,12 +643,15 @@ def AjoutPlaquette2(request):
     if (z == "Ahmed"):
         pal = Plaquette2.objects.filter(id_classe=1)
         classe = Classe.objects.filter(id=1)
+        res_profs = Responsable_Prof.objects.filter(id_classe=1)
     elif (z == "Abdoulaye"):
         pal = Plaquette2.objects.filter(id_classe=2)
         classe = Classe.objects.filter(id=2)
+        res_profs = Responsable_Prof.objects.filter(id_classe=2)
     else:
         pal = Plaquette2.objects.filter(id_classe=3)
         classe = Classe.objects.filter(id=3)
+        res_profs = Responsable_Prof.objects.filter(id_classe=3)
     for i in pal:
         c += 1
     form = Plaquette2Form(request.POST or None)
@@ -725,12 +680,15 @@ def AjoutPlaquette3(request):
     if (z == "Ahmed"):
         pal = Plaquette3.objects.filter(id_classe=1)
         classe = Classe.objects.filter(id=1)
+        res_profs = Responsable_Prof.objects.filter(id_classe=1)
     elif (z == "Abdoulaye"):
         pal = Plaquette3.objects.filter(id_classe=2)
         classe = Classe.objects.filter(id=2)
+        res_profs = Responsable_Prof.objects.filter(id_classe=2)
     else:
         pal = Plaquette3.objects.filter(id_classe=3)
         classe = Classe.objects.filter(id=3)
+        res_profs = Responsable_Prof.objects.filter(id_classe=3)
     for i in pal:
         c += 1
     form = Plaquette3Form(request.POST or None)
@@ -759,12 +717,15 @@ def AjoutPlaquette4(request):
     if (z == "Ahmed"):
         pal = Plaquette4.objects.filter(id_classe=1)
         classe = Classe.objects.filter(id=1)
+        res_profs = Responsable_Prof.objects.filter(id_classe=1)
     elif (z == "Abdoulaye"):
         pal = Plaquette4.objects.filter(id_classe=2)
         classe = Classe.objects.filter(id=2)
+        res_profs = Responsable_Prof.objects.filter(id_classe=2)
     else:
         pal = Plaquette4.objects.filter(id_classe=3)
         classe = Classe.objects.filter(id=3)
+        res_profs = Responsable_Prof.objects.filter(id_classe=3)
     for i in pal:
         c += 1
     form = Plaquette4Form(request.POST or None)
@@ -824,12 +785,15 @@ def editPlaquette(request, id):
     if (z == "Ahmed"):
         classe = Classe.objects.filter(id=1)
         pal = Plaquette.objects.filter(id_classe=1)
+        res_profs = Responsable_Prof.objects.filter(id_classe=1)
     elif (z == "Abdoulaye"):
         classe = Classe.objects.filter(id=2)
         pal = Plaquette.objects.filter(id_classe=2)
+        res_profs = Responsable_Prof.objects.filter(id_classe=2)
     else:
         classe = Classe.objects.filter(id=3)
         pal = Plaquette.objects.filter(id_classe=3)
+        res_profs = Responsable_Prof.objects.filter(id_classe=3)
     for i in pal:
         c += 1
     pl = Plaquette.objects.get(id=id)
@@ -857,12 +821,15 @@ def editPlaquette1(request, id):
     if (z == "Ahmed"):
         classe = Classe.objects.filter(id=1)
         pal = Plaquette1.objects.filter(id_classe=1)
+        res_profs = Responsable_Prof.objects.filter(id_classe=1)
     elif (z == "Abdoulaye"):
         classe = Classe.objects.filter(id=2)
         pal = Plaquette1.objects.filter(id_classe=2)
+        res_profs = Responsable_Prof.objects.filter(id_classe=2)
     else:
         classe = Classe.objects.filter(id=3)
         pal = Plaquette1.objects.filter(id_classe=3)
+        res_profs = Responsable_Prof.objects.filter(id_classe=3)
     for i in pal:
         c += 1
     pl = Plaquette1.objects.get(id=id)
@@ -890,12 +857,15 @@ def editPlaquette2(request, id):
     if (z == "Ahmed"):
         classe = Classe.objects.filter(id=1)
         pal = Plaquette2.objects.filter(id_classe=1)
+        res_profs = Responsable_Prof.objects.filter(id_classe=1)
     elif (z == "Abdoulaye"):
         classe = Classe.objects.filter(id=2)
         pal = Plaquette2.objects.filter(id_classe=2)
+        res_profs = Responsable_Prof.objects.filter(id_classe=2)
     else:
         classe = Classe.objects.filter(id=3)
         pal = Plaquette2.objects.filter(id_classe=3)
+        res_profs = Responsable_Prof.objects.filter(id_classe=3)
     for i in pal:
         c += 1
     pl = Plaquette2.objects.get(id=id)
@@ -923,12 +893,15 @@ def editPlaquette3(request, id):
     if (z == "Ahmed"):
         classe = Classe.objects.filter(id=1)
         pal = Plaquette3.objects.filter(id_classe=1)
+        res_profs = Responsable_Prof.objects.filter(id_classe=1)
     elif (z == "Abdoulaye"):
         classe = Classe.objects.filter(id=2)
         pal = Plaquette3.objects.filter(id_classe=2)
+        res_profs = Responsable_Prof.objects.filter(id_classe=2)
     else:
         classe = Classe.objects.filter(id=3)
         pal = Plaquette3.objects.filter(id_classe=3)
+        res_profs = Responsable_Prof.objects.filter(id_classe=3)
     for i in pal:
         c += 1
     pl = Plaquette3.objects.get(id=id)
@@ -956,12 +929,15 @@ def editPlaquette4(request, id):
     if (z == "Ahmed"):
         classe = Classe.objects.filter(id=1)
         pal = Plaquette4.objects.filter(id_classe=1)
+        res_profs = Responsable_Prof.objects.filter(id_classe=1)
     elif (z == "Abdoulaye"):
         classe = Classe.objects.filter(id=2)
         pal = Plaquette4.objects.filter(id_classe=2)
+        res_profs = Responsable_Prof.objects.filter(id_classe=2)
     else:
         classe = Classe.objects.filter(id=3)
         pal = Plaquette4.objects.filter(id_classe=3)
+        res_profs = Responsable_Prof.objects.filter(id_classe=3)
     for i in pal:
         c += 1
     pl = Plaquette4.objects.get(id=id)
@@ -996,6 +972,7 @@ def classe(request):
     e = 0
     f = 0
     g = 0
+    cas = 0
     res_profs = Responsable_Prof.objects.all()
     cours = Cours.objects.all()
     classe = Classe.objects.all()
@@ -1003,6 +980,7 @@ def classe(request):
 
     if (z == "DIC1_GIT"):
         plaquettes = Plaquette.objects.filter(id_classe=1)
+
         ens = Enseigner.objects.all()
 
         for plaquette in plaquettes:
@@ -1037,6 +1015,7 @@ def classe(request):
 
     elif (z == "DIC2_GIT"):
         plaquettes = Plaquette.objects.filter(id_classe=2)
+
         for plaquette in plaquettes:
             ip = ip + 1
             for j in plaquettes:
@@ -1068,6 +1047,7 @@ def classe(request):
         classes = Classe.objects.filter(id=2)
     elif(z == "DIC3_GIT"):
         plaquettes = Plaquette.objects.filter(id_classe=3)
+
         for plaquette in plaquettes:
             ip = ip + 1
             for j in plaquettes:
@@ -1100,3 +1080,140 @@ def classe(request):
 
     profs = Prof.objects.all()
     return render(request, 'classe.html', locals())
+
+@login_required(login_url='login')
+def secretaire(request):
+    sec = Secretaire.objects.all()
+    classe1 = Classe.objects.filter(id=1)
+    classe2 = Classe.objects.filter(id=2)
+    classe3 = Classe.objects.filter(id=3)
+    planning1 = Planning.objects.filter(id_classe=1)
+    planning2 = Planning.objects.filter(id_classe=2)
+    planning3 = Planning.objects.filter(id_classe=3)
+    eleves1 = Eleve.objects.filter(id_classe=1)
+    eleves2 = Eleve.objects.filter(id_classe=2)
+    eleves3 = Eleve.objects.filter(id_classe=3)
+    return render(request, 'secretaire.html', locals())
+
+@login_required(login_url='login')
+def cahiersecretaire(request):
+    sec = Secretaire.objects.all()
+    classe1 = Classe.objects.filter(id=1)
+    classe2 = Classe.objects.filter(id=2)
+    classe3 = Classe.objects.filter(id=3)
+    presabs1 = PresAbs.objects.filter(id_classe=1)
+    presabs2 = PresAbs.objects.filter(id_classe=2)
+    presabs3 = PresAbs.objects.filter(id_classe=3)
+    cahiertexte1 = CahierTexte.objects.filter(id_classe=1)
+    cahiertexte2 = CahierTexte.objects.filter(id_classe=2)
+    cahiertexte3 = CahierTexte.objects.filter(id_classe=3)
+    return render(request, 'cahiersecretaire.html', locals())
+
+@login_required(login_url='login')
+def plaquettesecretaire(request):
+    prof = Prof.objects.all()
+    sec = Secretaire.objects.all()
+    ip = ip1 = ip2 = ip3 = 0
+    iw = iw1 = iw2= iw3  =0
+    ic = ic1 = ic2= ic3  =0
+    ik = ik1 = ik2 = ik3  =0
+    im = im1 = im2 = im3  = 0
+    d = d1 = d2 = d3  =0
+    e = e1 = e2 = e3  = 0
+    f = f1 = f2 = f3  =0
+    g = g1 = g2 = g3  =0
+
+    classe = Classe.objects.all()
+    z = get_user(request).get_username()
+    plaquettesd1 = Plaquette.objects.filter(id_classe=1)
+
+    for plaquette in plaquettesd1:
+        ip1 = ip1 + 1
+        for j in plaquettesd1:
+            if j.ec != "":
+                d1 = 1
+    plaquettes1d1 = Plaquette1.objects.filter(id_classe=1)
+    for plaquette1 in plaquettes1d1:
+        iw1 = iw1 + 1
+        for j in plaquettes1d1:
+            if j.ec != "":
+                e1 = 1
+    plaquettes2d1 = Plaquette2.objects.filter(id_classe=1)
+    for plaquette2 in plaquettes2d1:
+        ic1 = ic1 + 1
+        for j in plaquettes2d1:
+            if j.ec != "":
+                f1 = 1
+    plaquettes3d1 = Plaquette3.objects.filter(id_classe=1)
+    for plaquette3 in plaquettes3d1:
+        ik1 = ik1 + 1
+        for j in plaquettes3d1:
+            if j.ec != "":
+                g1 = 1
+    plaquettes4d1 = Plaquette4.objects.filter(id_classe=1)
+    for plaquette4 in plaquettes4d1:
+        im1 = im1 + 1
+    classesd1 = Classe.objects.filter(id=1)
+
+
+
+    plaquettesd2 = Plaquette.objects.filter(id_classe=2)
+    for plaquette in plaquettesd2:
+        ip2 = ip2 + 1
+        for j in plaquettesd2:
+            if j.ec != "":
+                d2 = 1
+    plaquettes1d2 = Plaquette1.objects.filter(id_classe=2)
+    for plaquette1 in plaquettes1d2:
+        iw2 = iw2 + 1
+        for j in plaquettes1d2:
+            if j.ec != "":
+                e2 = 1
+    plaquettes2d2 = Plaquette2.objects.filter(id_classe=2)
+    for plaquette2 in plaquettes2d2:
+        ic2 = ic2 + 1
+        for j in plaquettes2d2:
+            if j.ec != "":
+                f2 = 1
+    plaquettes3d2 = Plaquette3.objects.filter(id_classe=2)
+    for plaquette3 in plaquettes3d2:
+        ik2 = ik2 + 1
+        for j in plaquettes3d2:
+            if j.ec != "":
+                g2 = 1
+    plaquettes4d2 = Plaquette4.objects.filter(id_classe=2)
+    for plaquette4 in plaquettes4d2:
+        im2 = im2 + 1
+
+    classesd2 = Classe.objects.filter(id=2)
+
+    plaquettesd3 = Plaquette.objects.filter(id_classe=3)
+    for plaquette in plaquettesd3:
+        ip3 = ip3 + 1
+        for j in plaquettesd3:
+            if j.ec != "":
+                d3 = 1
+    plaquettes1d3 = Plaquette1.objects.filter(id_classe=3)
+    for plaquette1 in plaquettes1d3:
+        iw3 = iw3 + 1
+        for j in plaquettes1d3:
+            if j.ec != "":
+                e3 = 1
+    plaquettes2d3 = Plaquette2.objects.filter(id_classe=3)
+    for plaquette2 in plaquettes2d3:
+        ic3 = ic3 + 1
+        for j in plaquettes2d3:
+            if j.ec != "":
+                f3 = 1
+    plaquettes3d3 = Plaquette3.objects.filter(id_classe=3)
+    for plaquette3 in plaquettes3d3:
+        ik3= ik3 + 1
+        for j in plaquettes3d3:
+            if j.ec != "":
+                g3 = 1
+    plaquettes4d3 = Plaquette4.objects.filter(id_classe=3)
+    for plaquette4 in plaquettes4d3:
+        im3 = im3 + 1
+    classesd3 = Classe.objects.filter(id=3)
+
+    return render(request, 'plaquettesecretaire.html', locals())

@@ -37,7 +37,9 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="{% static 'images/img.jpg' %}" alt="..." class="img-circle profile_img">
+
+               <img src="{{ res_profs.photo.url }}" class="img-circle profile_img">
+
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
@@ -55,9 +57,8 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="index.html">Dashboard</a></li>
-                      <li><a href="index2.html">Dashboard2</a></li>
-                      <li><a href="index3.html">Dashboard3</a></li>
+                      <li><a href="{% url 'index' %}">CRUD planning-plaquette</a></li>
+                      <li><a href="#">Voir autres</a></li>
                     </ul>
                   </li>
                 
@@ -90,7 +91,9 @@
                 <ul class=" navbar-right">
                   <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                      <img src="{% static 'images/img.jpg' %}" alt="">{{ user.username }}
+
+                      <img src="{{ res_profs.photo.url }}" alt="">
+                       {{ user.username }}
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                       
@@ -143,7 +146,7 @@
                             {% for i in notif1 %}
                                 <div class="chat_list">
                                     <div class="chat_people">
-                                            <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                                            <div class="chat_img"> <img src="{{ res_profs.photo.url }}" style="border-radius:50%;"  alt="sunil"> </div>
                                         <div class="chat_ib">
                                         {% for j in res %}
                                             {% if j.id == i.id_prof_emmet %}
@@ -181,10 +184,10 @@
                                 {% for i in notif %}
                                     <div class="chat_list active_chat">
                                         <div class="chat_people">
-                                            <div class="chat_img"> <img src="https://cdn3.iconfinder.com/data/icons/business-round-flat-vol-1-1/36/user_account_profile_avatar_person_student_male-512.png" alt="sunil"> </div>
-                                                <div class="chat_ib">
-                                                {% for j in res %}
+                                            {% for j in res %}
                                                     {% if j.id == i.id_prof_emmet %}
+                                            <div class="chat_img"> <img src="{{ j.photo.url }}" style="border-radius:50%;" alt="sunil"> </div>
+                                                <div class="chat_ib">
                                                          <h5>{{ j.prenom_prof }} {{ j.nom_prof }} <span class="chat_date">{{ i.date }}</span></h5>
                                                          <p>{{ i.contenu }}</p>
                                                     {% endif %}

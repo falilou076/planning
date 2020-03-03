@@ -180,7 +180,7 @@
                                 </div>
 
                                <div class="form-group tor">
-                                <select name="id_classe">
+                                <select name="id_classe" hidden="True">
                                     <optgroup label="classe">
                                         {% for i in classe %}
                                         <option value="{{ i.id }}" >{{ i.nom_classe }}</option>
@@ -308,7 +308,7 @@
                                     </optgroup>
                                 </select>
                             </div>
-                          <select name="id_classe">
+                          <select name="id_classe" hidden="True">
                                     <optgroup label="classe">
                                         {% for i in classe %}
                                         <option value="{{ i.id }}" >{{ i.nom_classe }}</option>

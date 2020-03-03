@@ -13,7 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
 from django.contrib import admin
+from django.conf import settings
 from django.conf.urls import url
 from django.urls import path
 from myapp import views
@@ -22,19 +24,16 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.login_user, name='login'),
     path('home/', views.home_prof, name='home'),
-    path('homeSe/', views.home_secretaire, name='homeSec'),
+
 
     path('plaquetteProf/', views.IndexPlaquetteProf, name='plaquetteProf'),
-    path('plaquetteSec/', views.IndexPlaquetteSec, name='plaquetteSec'),
-
-
 
     path('deconnexion/',views.deconnexion, name='deconnexion' ),
     path('listeEleveProf/',views.liste_eleve_prof, name='listeEleveProf' ),
-    path('listeEleveSecret/',views. liste_eleve_secretaire, name='liste_eleve_secretaire' ),
 
 
 
+    path('plaquettesecretaire/', views.plaquettesecretaire, name='plaquettesecretaire'),
     path('EditEleve/<int:id>/', views.editEleve, name='EditEleve'),
     path('ajout/', views.ajout, name='ajout'),
     path('liste_eleve/', views.liste_eleve, name='liste_eleve'),
@@ -60,10 +59,11 @@ urlpatterns = [
     path('DelPlaquette2/<int:id>/', views.DelPlaquette2, name='delplaquette2'),
     path('DelPlaquette3/<int:id>/', views.DelPlaquette3, name='delplaquette3'),
     path('DelPlaquette4/<int:id>/', views.DelPlaquette4, name='delplaquette4'),
-
+    path('secretaire/', views.secretaire, name='secretaire'),
+    path('cahiersecretaire/', views.cahiersecretaire, name='cahiersecretaire'),
     path('classe/', views.classe, name='classe'),
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 admin.site.site_header = " Administrateur"
 admin.site.site_title = "Planning"
 admin.site.index_title = "Welcome to Planning Project Admin"
