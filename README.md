@@ -14,6 +14,12 @@ mdp: guisse123
 login: Mamadou_Diallo
 mdp: diallodiouf1
 
+Responsable de classe:
+login: Alioune
+mdp: sarr1234
+
+login: Ibrahima
+mdp: ndiaye123
 
 Classe:
 login: DIC1_GIT
