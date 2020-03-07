@@ -1,5 +1,6 @@
 # planning
-Projet planning DIC1 EPT
+Projet planning DIC1 EPT (django)
+
 
 Comptes:
 
@@ -23,3 +24,10 @@ mdp: dic244ept
 
 login: DIC3_GIT
 mdp: dic343ept
+
+sécretaire:
+login: Henriette
+mdp: dasylva123
+
+mdp = mot de passe 
+vous pourrez utilisez ces compte pour tester!!
