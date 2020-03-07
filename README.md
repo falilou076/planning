@@ -1,7 +1,6 @@
 # planning
 Projet planning DIC1 EPT (django)
 
-
 Comptes:
 
 Responsable pédagogique: 
@@ -33,7 +32,9 @@ mdp = mot de passe
 vous pourrez utilisez ces comptes pour tester!!
 Il vous faudra naturellement installer django pour cela veuillez vous rapprochez de la documentation officielle.
 c'est un projet visant à gerer les emplois du temps du departement d'informatique et de télécommunications de l'ept mais avec quelques autres fonctionnaités ajoutées. 
+
 Il est destiné
+
 -aux professeurs qui pourront se connecter et reserver leurs cours en envoyant un message au responsable pédagogique ils pourront aussi consulter la liste des eleves l'emploi du temps et la plaquette que le responsable pédagogique a dressé.
 
 -aux responsables pédagogiques qui vont établir, modifier, supprimer les emplois du temps suivant les messages recus des profs ils pourront également via l'appli etablir modifier et supprimer (CRUD) la plaquette c'est dire un tableau contenant liste des modules d'une classe les unités d'enseignement modules... chaque responsable pédagogique pourra aussi mettre à jour la liste de la classe dont il est responsable.
