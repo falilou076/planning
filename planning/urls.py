@@ -61,6 +61,7 @@ urlpatterns = [
     path('DelPlaquette4/<int:id>/', views.DelPlaquette4, name='delplaquette4'),
     path('secretaire/', views.secretaire, name='secretaire'),
     path('cahiersecretaire/', views.cahiersecretaire, name='cahiersecretaire'),
+    path('contactsecretaire/', views.contactsecretaire, name='contactsecretaire'),
     path('classe/', views.classe, name='classe'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -37,7 +37,9 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="{% static 'images/img.jpg' %}" alt="..." class="img-circle profile_img">
+                {% for i in prof %}
+               <img src="{{ i.photo.url }}" class="img-circle profile_img">
+                {% endfor %}
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
@@ -56,8 +58,12 @@
                   <li><a><i class="fa fa-home"></i> Menu <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{% url 'listeEleveProf' %}">Liste eleve</a></li>
-                      <li><a href="{% url 'notification' %}">Message</a></li>
-                      <li><a href="{% url 'plaquetteProf' %}">Plaquette</a></li>
+                      {% for i in prof %}
+                        {% if i.prenom_prof == z %}
+                      <li><a href="{% url 'notification' id=i.id %}">Messagerie</a></li>
+                        {% endif %}
+                        {% endfor %}
+
                     </ul>
                   </li>
                 
@@ -90,7 +96,9 @@
                 <ul class=" navbar-right">
                   <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                      <img src="{% static 'images/img.jpg' %}" alt="">{{user.username}}
+                       {% for i in prof %}
+                      <img src="{{ i.photo.url }}" alt="">
+                       {% endfor %}{{user.username}}
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                       

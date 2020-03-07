@@ -32,8 +32,7 @@ def login_user(request):
                 if respons_ped:
                     return redirect("index")
                 elif prof:
-
-                    return render(request,'blog/prof.html',{'prof':prof})
+                    return redirect("home")
                 elif respons_ele:
                     return redirect("index_eleve")
                 elif classe:
@@ -57,6 +56,12 @@ def login_user(request):
 ##########################
 
 def home_prof(request):
+    z = get_user(request).get_username()
+    a = Prof.objects.all()
+    for i in a:
+        if i.prenom_prof == z:
+            prof = Prof.objects.filter(id=i.id)
+    res_profs = Responsable_Prof.objects.all()
     return render(request,'prof.html',locals())
 
 ####Deconnexion
@@ -452,8 +457,10 @@ def delEleve(request,id):
 
 @login_required(login_url='login')
 def notifications(request, id):
+    z = get_user(request).get_username()
     notif = Notification.objects.filter(id_prof_recep=id)
-    res_profs = Responsable_Prof.objects.get(id=id)
+    prof = Prof.objects.filter(id=id)
+    der = Responsable_Prof.objects.all()
     notif1 = Notification.objects.filter(id_prof_emmet=id)
     res = Prof.objects.all()
     a = datetime.datetime.now()
@@ -471,7 +478,7 @@ def notifications(request, id):
 
 @login_required(login_url='login')
 def Index_eleve(request):
-    cours = Cours.objects.all()
+    
     z = get_user(request).get_username()
     if (z == "Alioune"):
         classe = Classe.objects.filter(id=1)
@@ -1216,4 +1223,12 @@ def plaquettesecretaire(request):
         im3 = im3 + 1
     classesd3 = Classe.objects.filter(id=3)
 
+
     return render(request, 'plaquettesecretaire.html', locals())
+
+
+def contactsecretaire(request):
+    res = Responsable_Eleve.objects.all()
+    resp = Responsable_Prof.objects.all()
+    sec = Secretaire.objects.all()
+    return render(request, 'contactsecretaire.html', locals())

@@ -37,9 +37,9 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-
-               <img src="{{ res_profs.photo.url }}" class="img-circle profile_img">
-
+                {% for i in prof %}
+               <img src="{{ i.photo.url }}" class="img-circle profile_img">
+                {% endfor %}
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
@@ -57,8 +57,11 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
+                        {% for i in der %}
+                        {% if z == i.prenom_prof %}
                       <li><a href="{% url 'index' %}">CRUD planning-plaquette</a></li>
-                      <li><a href="#">Voir autres</a></li>
+                        {% endif %}
+                        {% endfor %}
                     </ul>
                   </li>
                 
@@ -91,8 +94,9 @@
                 <ul class=" navbar-right">
                   <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-
-                      <img src="{{ res_profs.photo.url }}" alt="">
+                        {% for i in prof %}
+                      <img src="{{ i.photo.url }}" alt="">
+                        {% endfor %}
                        {{ user.username }}
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
@@ -146,7 +150,9 @@
                             {% for i in notif1 %}
                                 <div class="chat_list">
                                     <div class="chat_people">
-                                            <div class="chat_img"> <img src="{{ res_profs.photo.url }}" style="border-radius:50%;"  alt="sunil"> </div>
+                                        {% for i in prof %}
+                                            <div class="chat_img"> <img src="{{ i.photo.url }}" style="border-radius:50%;"  alt="sunil"> </div>
+                                        {% endfor %}
                                         <div class="chat_ib">
                                         {% for j in res %}
                                             {% if j.id == i.id_prof_emmet %}

@@ -60,9 +60,10 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
+                        <li><a href="{% url 'plaquettesecretaire' %}">Plaquettes</a></li>
                         {% for i in prof %}
                         {% if i.prenom_prof == z %}
-                      <li><a href="{% url 'notification' id=i.id %}">Notifications</a></li>
+                      <li><a href="{% url 'notification' id=i.id %}">Messagerie</a></li>
                         {% endif %}
                         {% endfor %}
                     </ul>
@@ -191,16 +192,9 @@
                   </div>
                   </div>
               </div>
-
             </div>
-
-
                 </div>
               </div>
-
-
-
-
 
               </div>
 
